@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from types.human import Human
+from basetypes.human import Human
 
 
 @dataclass

@@ -1,4 +1,4 @@
-from types.human import Human
+from basetypes.human import Human
 
 
 class Child(Human):
@@ -6,15 +6,16 @@ class Child(Human):
         return False
 
     def drink(self) -> bool:
-        if super(Human).drink():
+        if super().drink():
             print("Mom, can I have a drink?")
             return True
         return False
 
     def grow_older(self) -> Human:
-        if self.get_age() >= 17:
+        super().grow_older()
+        if self.get_age() >= 18:
+            self.set_age(17)
             return Human(18)
-        super(Human).grow_older()
 
     def make_friend(self, h: Human):
         print(f"Let's be friends {h.name}")

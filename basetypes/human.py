@@ -3,8 +3,11 @@ from enum import Enum
 
 
 class HumanState:
-    def __new__(cls, state: str):
-        return super(HumanState, cls).__new__(cls, state, (object,), {})
+    def __init__(self, state: str):
+        self.state = state
+
+    def __str__(self):
+        return self.state
 
 
 class HumanSex(Enum):
@@ -13,24 +16,24 @@ class HumanSex(Enum):
     rand = random.choice([FEMALE, MALE])
 
 
-def check_adult(f):
-    def checking(self: Human, *args, **kwargs):
-        if self.get_age() < 18:
-            print("I'm not 18 years old")
-            return False
-        return f(*args, **kwargs)
-    return checking
-
-
 class Human:
     """ base class of humanoids """
     # __doc__ defined above
     def __init__(self, age=0):
         self._age = age
 
+    def check_adult(f):
+        def checking(self, *args, **kwargs):
+            if self.get_age() < 18:
+                print("I'm not 18 years old")
+                return False
+            return f(self, *args, **kwargs)
+
+        return checking
+
     state: HumanState = HumanState("calm")
     name: str = "Bob"
-    sex: HumanSex = HumanSex.male
+    sex: HumanSex = HumanSex.MALE
     greeting: str = "Hello!"
     _age: int
     starve: bool = True
@@ -41,7 +44,7 @@ class Human:
         return self._age
 
     def set_age(self, age: int) -> bool:
-        self.set_age(age)
+        self._age = age
         return True
 
     def __call__(self, *args, **kwargs):
@@ -83,8 +86,6 @@ class Human:
 
     @check_adult
     def make_child(self):
-        return self.__new__(type(self))
-
-    def __new__(cls, *args, **kwargs):
-        h = cls(0)
+        h = Human(0)
         h.sex = HumanSex.rand
+        return h
