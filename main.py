@@ -1,5 +1,6 @@
 from humans.child import Child
 from basetypes.human import HumanSex
+from basetypes.goverment import TaxPayer
 
 
 if __name__ == "__main__":
@@ -24,3 +25,9 @@ if __name__ == "__main__":
     if not ch3:
         ch3 = adult.make_child()
         print(ch3)
+
+    tax = TaxPayer(
+        human=adult
+    )
+
+    print(tax)
